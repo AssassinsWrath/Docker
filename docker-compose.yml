@@ -57,26 +57,26 @@ services:
 ###############################################################
 # Zigbee2mqtt
 ###############################################################
-  zigbee2mqtt:
-      image: koenkk/zigbee2mqtt:latest
-      container_name: zigbee2mqtt
-      ports:
-        - "8080:8080"
-      volumes:
-        - zigbee2mqtt:/app/data
-      restart: unless-stopped
-      labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.zigbee2mqtt.tls=true"
-      - "traefik.http.routers.zigbee2mqtt.entrypoints=websecure"
-      - "traefik.http.routers.zigbee2mqtt.tls.certresolver=letsencryptresolver"
-      - "traefik.http.routers.zigbee2mqtt.rule=Host(`zigbee2mqtt.willg.link`)"
-      - "traefik.http.routers.zigbee2mqtt.service=zigbee2mqtt-docker"
-      networks:
-        - reverse_proxy
+#  zigbee2mqtt:
+#      image: koenkk/zigbee2mqtt:latest
+#      container_name: zigbee2mqtt
+#      ports:
+#        - "8080:8080"
+#      volumes:
+#        - zigbee2mqtt:/app/data
+#      restart: unless-stopped
+#      labels:
+#      - "traefik.enable=true"
+#      - "traefik.http.routers.zigbee2mqtt.tls=true"
+#      - "traefik.http.routers.zigbee2mqtt.entrypoints=websecure"
+#      - "traefik.http.routers.zigbee2mqtt.tls.certresolver=letsencryptresolver"
+#      - "traefik.http.routers.zigbee2mqtt.rule=Host(`zigbee2mqtt.willg.link`)"
+#      - "traefik.http.routers.zigbee2mqtt.service=zigbee2mqtt-docker"
+#      networks:
+#        - reverse_proxy
 
 ###############################################################
-# Minecraft
+# Minecraft (Java)
 ###############################################################
 
   minecraft:
@@ -103,6 +103,32 @@ services:
     - "traefik.http.routers.minecraft.service=minecraft-docker"
 
 
+###############################################################
+# Minecraft (Bedrock) - set by AssassinsWrath - need to test
+###############################################################
+
+  bedrock-server:
+    image: itzg/minecraft-bedrock-server:latest
+    container_name: bedrock-server
+    ports:
+      - "19132:19132/udp" #if testing fails, it  maybe due to the /udp part
+    environment:
+      EULA: "TRUE"
+      MEMORY: "4G"
+      TYPE: "VANILLA"
+      VERSION: "LATEST"
+    volumes:
+      - minecraft:/data
+    networks:
+      - reverse_proxy
+    restart: unless-stopped
+    labels:
+    - "traefik.enable=true"
+    - "traefik.http.routers.minecraft.tls=true"
+    - "traefik.http.routers.minecraft.entrypoints=websecure"
+    - "traefik.http.routers.minecraft.tls.certresolver=letsencryptresolver"
+    - "traefik.http.routers.minecraft.rule=Host(`minecraft.willg.link`)"
+    - "traefik.http.routers.minecraft.service=minecraft-docker"
 ###############################################################
 # Media Stack
 ###############################################################
@@ -305,6 +331,13 @@ volumes:
       type: 'none'
       o: 'bind'
       device: '/container_data/minecraft'
+
+  bedrock-server: #########
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/container_data/bedrock-server'
 
   audiobookshelfconfig:
     driver: local
