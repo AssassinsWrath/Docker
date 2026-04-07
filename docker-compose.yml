@@ -115,20 +115,36 @@ services:
     environment:
       EULA: "TRUE"
       MEMORY: "4G"
-      TYPE: "VANILLA"
+      #TYPE: "VANILLA"
       VERSION: "LATEST"
+      SERVER_NAME=${SERVER_NAME}
+      SERVER_PORT=${ERVER_PORT}
+      SERVER_PORT_V6=${SERVER_PORT_V6}
+      GAMEMODE=${GAMEMODE}
+      DIFFICULTY=${DIFFICULTY}
+      ALLOW_CHEATS=${ALLOW_CHEATS}
+      MAX_PLAYERS=${MAX_PLAYERS}
+      ONLINE_MODE=${ONLINE_MODE}
+      VIEW_DISTANCE=${VIEW_DISTANCE}
+      TICK_DISTANCE=${TICK_DISTANCE}
+      MAX_THREADS=${MAX_THREADS}
+      LEVEL_NAME=${LEVEL_NAME}
+      LEVEL_SEED=${LEVEL_SEED}
+      DEFAULT_PLAYER_PERMISSION_LEVEL=${DEFAULT_PLAYER_PERMISSION_LEVEL}
+      TEXTUREPACK_REQUIRED=${TEXTUREPACK_REQUIRED}
     volumes:
-      - minecraft:/data
+      - bedrock-server:/data
     networks:
       - reverse_proxy
     restart: unless-stopped
     labels:
     - "traefik.enable=true"
-    - "traefik.http.routers.minecraft.tls=true"
-    - "traefik.http.routers.minecraft.entrypoints=websecure"
-    - "traefik.http.routers.minecraft.tls.certresolver=letsencryptresolver"
-    - "traefik.http.routers.minecraft.rule=Host(`minecraft.willg.link`)"
-    - "traefik.http.routers.minecraft.service=minecraft-docker"
+    - "traefik.http.routers.bedrock-server.tls=true"
+    - "traefik.http.routers.bedrock-server.entrypoints=websecure"
+    - "traefik.http.routers.bedrock-server.tls.certresolver=letsencryptresolver"
+    - "traefik.http.routers.bedrock-server.rule=Host(`bedrock-server.willg.link`)"
+    - "traefik.http.routers.bedrock-server.service=bedrock-server-docker"
+
 ###############################################################
 # Media Stack
 ###############################################################
@@ -318,12 +334,14 @@ volumes:
       o: 'bind'
       device: '/container_data/maintainaar'
 
-  zigbee2mqtt:
-    driver: local
-    driver_opts:
-      type: 'none'
-      o: 'bind'
-      device: '/container_data/zigbee2mqtt'
+#  zigbee2mqtt:
+#    driver: local
+#    driver_opts:     
+
+UID (defa
+#      type: 'none'
+#      o: 'bind'
+#      device: '/container_data/zigbee2mqtt'
 
   minecraft:
     driver: local
