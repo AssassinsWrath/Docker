@@ -13,7 +13,7 @@ services:
     ports:
       - 8090:8080
     networks:
-      - reverse_proxy    
+      - reverse_proxy
     environment:
       - NODE_ENV=production
     restart: always
@@ -29,7 +29,7 @@ services:
       - "traefik.http.routers.dashy.entrypoints=websecure"
       - "traefik.http.routers.dashy.tls.certresolver=letsencryptresolver"
       - "traefik.http.routers.dashy.rule=Host(`home.willg.link`)"
-      
+
 ###############################################################
 # AudioBookShelf
 ###############################################################
@@ -113,10 +113,10 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=NZ
+      - TZ=Europe/London
     volumes:
       - sabnzbdconfig:/config
-      - downloads:/downloads 
+      - downloads:/downloads
     ports:
       - 8079:8079
     networks:
@@ -130,11 +130,11 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=NZ 
+      - TZ=Europe/London
     volumes:
-      - sonarrconfig:/config 
-      - tv:/TV 
-      - downloads:/downloads 
+      - sonarrconfig:/config
+      - tv:/TV
+      - downloads:/downloads
     ports:
       - 8989:8989
     networks:
@@ -153,11 +153,11 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=NZ 
+      - TZ=NZ
     volumes:
-      - radarrconfig:/config 
-      - movies:/Movies 
-      - downloads:/downloads 
+      - radarrconfig:/config
+      - movies:/Movies
+      - downloads:/downloads
     ports:
       - 7878:7878
     networks:
@@ -170,20 +170,20 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=NZ 
+      - TZ=NZ
     volumes:
-      - plexconfig:/config 
-      - plexconfig:/transcode 
-      - tv:/tv 
-      - movies:/movies 
+      - plexconfig:/config
+      - plexconfig:/transcode
+      - tv:/tv
+      - movies:/movies
     ports:
-      -  32400:32400 
-      -  5353:5353/udp 
-      -  8324:8324 
-      -  32410:32410/udp 
-      -  32412:32412/udp 
-      -  32413:32413/udp 
-      -  32414:32414/udp 
+      -  32400:32400
+      -  5353:5353/udp
+      -  8324:8324
+      -  32410:32410/udp
+      -  32412:32412/udp
+      -  32413:32413/udp
+      -  32414:32414/udp
       -  32469:32469
     networks:
       - reverse_proxy
@@ -198,7 +198,7 @@ services:
       - "9443:9443"
       - "9000:9000"
     networks:
-      - reverse_proxy    
+      - reverse_proxy
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "portainer_data:/data"
@@ -228,7 +228,7 @@ services:
       - --entrypoints.websecure.http.tls.domains[0].main=${DOMAINNAME}
       - --entrypoints.websecure.http.tls.domains[0].sans=*.${DOMAINNAME}
       - --providers.docker=true
-      - --providers.docker.exposedByDefault=false 
+      - --providers.docker.exposedByDefault=false
       - --certificatesresolvers.letsencryptresolver.acme.dnschallenge=true
       - --certificatesresolvers.letsencryptresolver.acme.dnschallenge.provider=cloudflare
       - --certificatesresolvers.letsencryptresolver.acme.email=${EMAIL}
@@ -245,8 +245,8 @@ services:
       - CF_API_KEY=${KEY}
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro 
-      - ${TRAEFIK_DIR}/acme.json:/acme.json 
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ${TRAEFIK_DIR}/acme.json:/acme.json
       - /container_data/traefik/dynamic.yml:/dynamic.yml:ro
     labels:
       - traefik.enable=true
@@ -261,7 +261,7 @@ services:
 # Maintainaar
 ###############################################################
   maintainerr:
-    image: ghcr.io/jorenn92/maintainerr:latest 
+    image: ghcr.io/jorenn92/maintainerr:latest
     container_name: maintainerr
     user: 1000:1000
     volumes:
@@ -361,7 +361,7 @@ volumes:
       type: 'none'
       o: 'bind'
       device: '/mnt/media/Movies'
-  
+
   plexconfig:
     driver: local
     driver_opts:
