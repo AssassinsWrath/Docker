@@ -113,6 +113,8 @@ services:
     ports:
       - "19132:19132/udp" #if testing fails, it  maybe due to the /udp part
     environment:
+      PUID=1000
+      PGID=1000
       EULA: "TRUE"
       MEMORY: "4G"
       #TYPE: "VANILLA"
