@@ -1,7 +1,7 @@
 ### Initial OS setup files (based on Debian server install) Hopefully I can make this into a bash script to run after initial install
 sudo apt update
 sudo apt install fastfetch
-mkdir /container
+sudo apt install rsync
 
 ############################
 
