@@ -66,3 +66,5 @@ sudo mkdir -p /container_data/maintainaar
 #sudo mkdir -p /container_data/zigbee2mqtt
 # for media stack (Radarr, Sonarr, Lidarr, sabnzbd (binary newsreader)
 sudo mkdir -p /container_data/media/Downloads /container_data/media/lidarr /container_data/media/radarr /container_data/media/sonarr /container_data/media/Movies /container_data/media/TV /container_data/media/plex /container_data/media/sabnzbd
+# for mincraft and bedrock server
+sudo mkdir -p /container_data/minecraft /container_data/bedrock-server
