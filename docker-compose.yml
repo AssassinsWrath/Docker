@@ -111,7 +111,7 @@ services:
     image: itzg/minecraft-bedrock-server:latest
     container_name: bedrock-server
     ports:
-      - "19132:19132/udp" #if testing fails, it  maybe due to the /udp part
+      - "19132:19132/udp"
     environment:
       PUID=1000
       PGID=1000
@@ -197,7 +197,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=NZ
+      - TZ=${TZ:-UTC}
     volumes:
       - radarrconfig:/config
       - movies:/Movies
@@ -214,7 +214,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=NZ
+      - TZ=${TZ:-UTC}
     volumes:
       - plexconfig:/config
       - plexconfig:/transcode
@@ -302,16 +302,16 @@ services:
 
 
 ###############################################################
-# Maintainaar
+# Maintainerr
 ###############################################################
   maintainerr:
     image: ghcr.io/jorenn92/maintainerr:latest
     container_name: maintainerr
     user: 1000:1000
     volumes:
-      - maintainaar_config:/opt/data
+      - maintainerr_config:/opt/data
     environment:
-      - TZ=NZ
+      - TZ=${TZ:-UTC}
     networks:
       - reverse_proxy
     ports:
@@ -319,28 +319,26 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.maintainaar.rule=Host(`maintainaar.willg.link`)"
-      - "traefik.http.routers.maintainaar.entrypoints=websecure"
-      - "traefik.http.routers.maintainaar.tls=true"
-      - "traefik.http.routers.maintainaar.tls.certresolver=letsencryptresolver"
+      - "traefik.http.routers.maintainerr.rule=Host(`maintainerr.willg.link`)"
+      - "traefik.http.routers.maintainerr.entrypoints=websecure"
+      - "traefik.http.routers.maintainerr.tls=true"
+      - "traefik.http.routers.maintainerr.tls.certresolver=letsencryptresolver"
 
 ###############################################################
 # Volumes
 #################################################################
 
 volumes:
-  maintainaar_config:
+  maintainerr_config:
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '/container_data/maintainaar'
+      device: '/container_data/maintainerr'
 
 #  zigbee2mqtt:
 #    driver: local
-#    driver_opts:     
-
-UID (defa
+#    driver_opts:
 #      type: 'none'
 #      o: 'bind'
 #      device: '/container_data/zigbee2mqtt'
